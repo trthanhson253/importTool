@@ -1,0 +1,1 @@
+var contextPath = document.getElementsByTagName('base')[0].getAttribute('href');

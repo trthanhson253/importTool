@@ -1,0 +1,7 @@
+th, td {
+    text-align: left;
+}
+
+td > a.btn {
+    float: right;
+}

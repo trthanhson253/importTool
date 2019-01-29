@@ -1,0 +1,30 @@
+spring:
+  datasource:
+#    jndi-name: java:jboss/datasources/bank_lead_data
+    url:      jdbc:sqlserver://10.19.69.41:48000;databaseName=COMMON
+    username: svc_common_test
+    password: P@ssw0rd
+    
+ods:
+  datasource:
+#    jndi-name: java:jboss/datasources/importODS
+    url:      jdbc:sqlserver://10.19.69.41:58000;databaseName=ODS_17AUG
+    username: svc_misods
+    password: P@ssw0rd
+#ods:
+#  datasource:
+#    url:      jdbc:sqlserver://10.19.69.41:48000;databaseName=Attendance
+#    username: svc_user
+#    password: P@ssw0rd
+    
+staff:
+  ldap:
+    urls: ldap://10.19.72.10:389
+    base: OU=Users,OU=VNM,DC=VN,DC=INTRANET
+    user-dn: CN=svc_prd_agency_admin,OU=Service Accounts,OU=DMS-NB,OU=PRDEnv,OU=VNM,DC=VN,DC=INTRANET
+    password: Today@1211!@!!
+    
+base:
+  folder: 
+    temptFolfer: D:/workspace/fwd-import/Tempt
+  

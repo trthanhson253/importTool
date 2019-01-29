@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+	<head>
+	    <th:block th:replace="_fragments/layout::meta">
+	        <meta charset="utf-8"/>
+	        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	        <meta name="description"
+	              content="FWD Việt Nam là công ty bảo hiểm cung cấp các sản phẩm và dịch vụ bảo hiểm chuyên nghiệp."/>
+	        <meta name="keywords" content=""/>
+	        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+	    </th:block>
+	
+	    <th:block th:replace="_fragments/layout::title">
+	        <title>FWD VN - IMPORT DATA</title>
+	    </th:block>
+	
+	    <th:block th:replace="_fragments/layout::stylesheet">
+	        <link rel="stylesheet" href="../static/vendor/font-awesome/css/font-awesome.css"
+	              th:href="@{/vendor/font-awesome/css/font-awesome.css(ver=#{version})}"/>
+	        <link rel="stylesheet" href="../static/vendor/jqueryui/jquery-ui.css"
+	              th:href="@{/vendor/jqueryui/jquery-ui.css(ver=#{version})}"/>
+	        <link rel="stylesheet" href="../static/css/style.min.css"
+	              th:href="@{/css/style.min.css(ver=#{version})}"/>
+	        <link rel="stylesheet" href="../static/vendor/primeui/primeui.css"
+	              th:href="@{/vendor/primeui/primeui.css(ver=#{version})}"/>
+	        <link rel="stylesheet" href="../static/css/custom.css"
+	              th:href="@{/css/custom.css(ver=#{version})}"/>
+	    </th:block>
+	    <th:block>
+	        <link rel="stylesheet" href="../../static/vendor/datatables/css/jquery.dataTables.css"
+	              th:href="@{/vendor/datatables/css/jquery.dataTables.css}"/>
+	    </th:block>
+	
+	    <!-- Google Analytics -->
+	    <script>
+	        // <![CDATA[
+	        (function (i, s, o, g, r, a, m) {
+	            i['GoogleAnalyticsObject'] = r;
+	            i[r] = i[r] || function () {
+	                (i[r].q = i[r].q || []).push(arguments)
+	            }, i[r].l = 1 * new Date();
+	            a = s.createElement(o),
+	                m = s.getElementsByTagName(o)[0];
+	            a.async = 1;
+	            a.src = g;
+	            m.parentNode.insertBefore(a, m)
+	        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+	
+	        ga('create', 'UA-93487302-7', 'auto');
+	        ga('send', 'pageview');
+	        // ]]>
+	    </script>
+	    <!-- End Google Analytics -->
+	
+	    <th:block th:replace="_fragments/layout::script">
+	        <script src="../static/vendor/jquery/jquery.js"
+	                th:src="@{/vendor/jquery/jquery.js(ver=#{version})}"></script>
+	        <script src="../static/vendor/jqueryui/jquery-ui.js"
+	                th:src="@{/vendor/jqueryui/jquery-ui.js(ver=#{version})}"></script>
+	        <script src="../static/vendor/primeui/primeui.js"
+	                th:src="@{/vendor/primeui/primeui.js(ver=#{version})}"></script>
+	        <script src="../static/vendor/x-tag/dist/x-tag-core.js"
+	                th:src="@{/vendor/x-tag/dist/x-tag-core.js(ver=#{version})}"></script>
+	        <script src="../static/vendor/primeui/primeelements.js"
+	                th:src="@{/vendor/primeui/primeelements.js(ver=#{version})}"></script>
+	    </th:block>
+	
+		<th:block>
+	        <script src="../../static/vendor/datatables/js/jquery.dataTables.js"
+	                th:src="@{/vendor/datatables/js/jquery.dataTables.js}"></script>
+    	</th:block>
+	
+		<script type="text/javascript" th:inline="javascript">
+	        /*<![CDATA[*/
+	        var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/ '';
+	        /*]]>*/
+	    </script>
+	</head>
+	<body style="margin-top: 45px; background-color: rgb(238, 238, 238)">
+		<header th:replace="_fragments/layout :: header"></header>
+		<div style="padding-left: 20px;padding-right: 20px;">
+		    <div id="import" style="font-family: Arial, sans-serif">
+				<form id="FormImport" class="form-horizontal" method="post" enctype="multipart/form-data" th:action="@{/import}" >
+					<div class="row" style="padding-bottom: 5px;">
+						<div class="col-sm-2">
+							<label for="template">Template: </label>
+						</div>
+						<div class="col-sm-10">
+							<select id="templateId" class="form-control" name="templateId" th:value="${templateId}">
+								<option th:each="template:${templates}" th:value="${template.id}" th:text="${template.templateName}">
+		                            templateA
+		                        </option>
+							</select>
+						</div>
+					</div>
+		            <div class="row" style="padding-bottom: 5px;">
+		            	<div class="col-sm-2">
+		            		<label for="file" style="text-align: right">File: </label>
+		            	</div>
+		                <div class="col-sm-10">
+		                    <input type="file" id="file" name="file" onchange="uploadFile()" class="form-control" required="required"/>
+		                </div>
+		            </div>
+			        <div class="row" style="padding-bottom: 5px;">
+						<div class="col-sm-2">
+							<label for="downloadTemplate">Download Template: </label>
+						</div>
+						<div class="col-sm-10">
+							<a class="btn btn-default" onclick="dowLoadFileTemplate();">Download Template</a>
+						</div>
+					</div>
+			        <input type="hidden" id="inputTemplate" th:value="${templateId}"/>
+			    </form>
+			    <button onclick="onClickBtSubmit();" class="btn btn-primary">Submit</button>
+			    
+		        <div style="padding-top: 5px;">
+		        	<div class="tab">
+					  <button class="tablinks active" onclick="openTabview(event, 'dataFileImport')">Data</button>
+					  <button class="tablinks" onclick="openTabview(event, 'historyAction')">Action History</button>
+					</div>
+					<div id="dataFileImport" class="tabcontent active" style="display: block;">
+						<table id="dataFileImport" class="display hover fwd-table dataTable">
+							<tbody id="bodyDataFileImport"></tbody>
+						</table>
+					</div>
+					<div id="historyAction" class="tabcontent">
+			        	<label>List action history: </label>
+			        	<table id="search-result" class="display hover fwd-table dataTable">
+				            <thead>
+				            <tr>
+				                <td>STT</td>
+				                <td>Action Date</td>
+				                <td>Author</td>
+				                <td>Action</td>
+				                <td>File Name</td>
+				                <td>Status</td>
+				            </tr>
+				            </thead>
+				            <tbody id="bodyTableHistory">
+				            <tr th:each="log,iter : ${logs}">
+				                <td th:text="${iter.count}">
+				                    0
+				                </td>
+				                <td th:text="${log.strCreateTime}">
+				                    12-02-2017 19:02
+				                </td>
+				                <td th:text="${log.userName}">Nguyen Trai</td>
+				                <td th:text="${log.action}">Insert</td>
+				                <td >
+				                    <a th:id="${log.id}" onclick="dowLoadFileImport($(this).attr('id'));"
+				                       th:text="${log.fileName}">/abc/zyz</a>
+				                </td>
+				                <td th:text="${log.result}">
+				                    success
+				                </td>
+				            </tr>
+				            </tbody>
+				        </table>
+					</div>
+		        </div>
+		    </div>
+		</div>
+		<script src="../static/js/main.js" th:src="@{/js/import.js(ver=#{version})}"></script>
+		
+		<div id="dialog-Notice" title="Thông Báo">
+	        <p>
+	            File không tồn tại trên hệ thống !
+	        </p>
+	    </div>
+	</body>
+</html>
+

@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: dev
+    
+---
+# BUG-FIX: Actuator use same jmx endpoint for all spring boot apps,
+# there will be error if many spring apps deploy on the same jee container
+endpoints:
+  jmx:
+    unique-names: true
+---
+# BUG-FIX: default spring servlet path (/) won't work on JBoss EAP 6.4
+# this is an error on JBoss container and was fixed on EAP 6.4 update 6
+server:
+  servlet-path: /*
+---

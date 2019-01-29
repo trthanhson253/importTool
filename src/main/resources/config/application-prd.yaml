@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    jndi-name: java:jboss/datasources/importCOMMON
+    
+ods:
+  datasource:
+    jndi-name: java:jboss/datasources/importODS
+    
+staff:
+  ldap:
+    urls: ldap://10.19.72.10:389
+    base: OU=Users,OU=VNM,DC=VN,DC=INTRANET
+    user-dn: CN=svc_prd_agency_admin,OU=Service Accounts,OU=DMS-NB,OU=PRDEnv,OU=VNM,DC=VN,DC=INTRANET
+    password: Today@1211!@!!
+    
+base:
+  folder: 
+    temptFolfer: C:/EAP-6.4.0/standalone_external/DATA_1/IMPORT_TOOL/TEMPT
+  
