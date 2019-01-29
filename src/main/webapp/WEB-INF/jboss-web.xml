@@ -1,0 +1,3 @@
+<jboss-web>
+    <context-root>/import</context-root>
+</jboss-web>
